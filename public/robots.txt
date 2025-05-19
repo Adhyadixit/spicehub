@@ -1,0 +1,14 @@
+
+User-agent: *
+Allow: /
+
+Sitemap: https://swaminarayanspicehub.ca/sitemap.xml
+
+# Disallow crawling of administrative pages
+User-agent: *
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /search*
+
