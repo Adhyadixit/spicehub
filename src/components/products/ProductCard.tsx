@@ -12,7 +12,7 @@ interface ProductCardProps {
   originalPrice?: number;
   image: string;
   rating: number;
-  reviewCount: number;
+  reviewCount?: number;
   isNew?: boolean;
   isSale?: boolean;
   tags?: string[];
@@ -38,20 +38,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
       name,
       price,
       image,
-      quantity: 1
+      quantity: 1,
+      weight: '100g' // Default weight for now
     });
   };
-  id,
-  name,
-  price,
-  originalPrice,
-  image,
-  rating,
-  reviewCount,
-  isNew = false,
-  isSale = false,
-  tags = []
-}) => {
+
   const discount = originalPrice ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0;
 
   return (
@@ -135,7 +126,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               />
             ))}
           </div>
-          <span className="text-xs text-gray-500">({reviewCount})</span>
+          <span className="text-xs text-gray-500">{reviewCount ? `(${reviewCount})` : ''}</span>
         </div>
 
         {/* Price */}

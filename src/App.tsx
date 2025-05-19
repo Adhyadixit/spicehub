@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { CartProvider } from "@/contexts/CartContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
@@ -36,47 +37,48 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Index />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/product/:id" element={<ProductDetailsPage />} />
-          <Route path="/category/:categoryId" element={<ProductsPage />} />
-          <Route path="/collections/:collectionId" element={<ProductsPage />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<CheckoutSimple />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/policies/refund-policy" element={<RefundPolicy />} />
-          <Route path="/policies/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/policies/terms-of-use" element={<TermsOfUse />} />
-          <Route path="/policies/shipping-policy" element={<ShippingPolicy />} />
-          
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/products" element={<AdminProducts />} />
-          <Route path="/admin/products/new" element={<ProductForm />} />
-          <Route path="/admin/products/edit/:id" element={<ProductForm />} />
-          <Route path="/admin/categories" element={<AdminCategories />} />
-          <Route path="/admin/hero-images" element={<AdminHeroImages />} />
-          <Route path="/admin/orders" element={<AdminOrders />} />
-          <Route path="/admin/customers" element={<AdminCustomers />} />
-          <Route path="/admin/settings" element={<AdminSettings />} />
-          
-          
-          {/* 404 Route */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <CartProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Index />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/product/:id" element={<ProductDetailsPage />} />
+            <Route path="/category/:categoryId" element={<ProductsPage />} />
+            <Route path="/collections/:collectionId" element={<ProductsPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<CheckoutSimple />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/policies/refund-policy" element={<RefundPolicy />} />
+            <Route path="/policies/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/policies/terms-of-use" element={<TermsOfUse />} />
+            <Route path="/policies/shipping-policy" element={<ShippingPolicy />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/products" element={<AdminProducts />} />
+            <Route path="/admin/products/new" element={<ProductForm />} />
+            <Route path="/admin/products/edit/:id" element={<ProductForm />} />
+            <Route path="/admin/categories" element={<AdminCategories />} />
+            <Route path="/admin/hero-images" element={<AdminHeroImages />} />
+            <Route path="/admin/orders" element={<AdminOrders />} />
+            <Route path="/admin/customers" element={<AdminCustomers />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
+            
+            {/* 404 Route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </CartProvider>
   </QueryClientProvider>
 );
 
