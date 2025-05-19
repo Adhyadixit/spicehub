@@ -5,6 +5,7 @@ import {
   Search, ShoppingCart, User, Menu, X, Heart, 
   ChevronDown, Phone, Mail, LogOut, LayoutDashboard
 } from 'lucide-react';
+import { getCartCount } from '@/utils/cartUtils';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
@@ -22,6 +23,23 @@ const Header = () => {
   const [cartCount, setCartCount] = useState(0);
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+
+  // Update cart count when component mounts and when cart changes
+  useEffect(() => {
+    const updateCartCount = () => {
+      setCartCount(getCartCount());
+    };
+    
+    // Initial cart count
+    updateCartCount();
+    
+    // Listen for cart updates
+    window.addEventListener('cart-updated', updateCartCount);
+    
+    return () => {
+      window.removeEventListener('cart-updated', updateCartCount);
+    };
+  }, []);
 
   useEffect(() => {
     const getUser = async () => {

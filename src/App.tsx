@@ -12,6 +12,14 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import NotFound from "./pages/NotFound";
 import AuthPage from "./pages/AuthPage";
 import AccountPage from "./pages/AccountPage";
+import Cart from "./pages/Cart";
+import CheckoutSimple from "./pages/CheckoutSimple";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
+import FAQ from "./pages/FAQ";
+import RefundPolicy from "./pages/policies/RefundPolicy";
+import PrivacyPolicy from "./pages/policies/PrivacyPolicy";
+import TermsOfUse from "./pages/policies/TermsOfUse";
 
 // Admin Pages
 import AdminDashboard from "./pages/admin/Dashboard";
@@ -40,6 +48,14 @@ const App = () => (
           <Route path="/collections/:collectionId" element={<ProductsPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/account" element={<AccountPage />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<CheckoutSimple />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/policies/refund-policy" element={<RefundPolicy />} />
+          <Route path="/policies/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/policies/terms-of-use" element={<TermsOfUse />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
@@ -51,6 +67,7 @@ const App = () => (
           <Route path="/admin/orders" element={<AdminOrders />} />
           <Route path="/admin/customers" element={<AdminCustomers />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
+          
           
           {/* 404 Route */}
           <Route path="*" element={<NotFound />} />

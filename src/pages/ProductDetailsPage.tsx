@@ -1,14 +1,16 @@
 
 import React, { useState } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import { products } from '../data/products';
 import { Star, Heart, Share, ChevronRight, MinusIcon, PlusIcon, ShoppingCart, Check } from 'lucide-react';
 import ProductGrid from '../components/products/ProductGrid';
-import { cn } from '@/lib/utils';
+import { cn, formatCurrency } from '@/lib/utils';
+import { addToCart } from '@/utils/cartUtils';
 
 const ProductDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [activeImage, setActiveImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
@@ -28,14 +30,32 @@ const ProductDetailsPage = () => {
   }
 
   const handleAddToCart = () => {
-    // In a real application, this would add the product to the cart
-    console.log(`Adding ${quantity} of ${product.name} to cart`);
+    // Add the product to the cart using our cart utilities
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      quantity: quantity,
+      image: product.image,
+      weight: product.weight || '100g'
+    });
+    
+    console.log(`Added ${quantity} of ${product.name} to cart`);
     
     // Show added to cart confirmation
     setAddedToCart(true);
     setTimeout(() => {
       setAddedToCart(false);
     }, 2000);
+  };
+
+  // Handle express checkout
+  const handleExpressCheckout = () => {
+    // First add to cart
+    handleAddToCart();
+    // Then navigate to checkout
+    navigate('/checkout');
   };
 
   return (
@@ -158,10 +178,10 @@ const ProductDetailsPage = () => {
 
             {/* Price */}
             <div className="flex items-center mb-6">
-              <span className="text-3xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
+              <span className="text-3xl font-bold text-gray-900">{formatCurrency(product.price)}</span>
               {product.originalPrice && (
                 <span className="ml-3 text-lg text-gray-500 line-through">
-                  ${product.originalPrice.toFixed(2)}
+                  {formatCurrency(product.originalPrice)}
                 </span>
               )}
             </div>
@@ -171,10 +191,10 @@ const ProductDetailsPage = () => {
               <span className="mr-4">SKU: {product.sku}</span>
               <span className={`flex items-center ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
                 {product.stock > 0 ? (
-                  <>
+                  <span>
                     <Check className="h-4 w-4 mr-1" />
                     In Stock ({product.stock} available)
-                  </>
+                  </span>
                 ) : (
                   'Out of Stock'
                 )}
@@ -218,37 +238,52 @@ const ProductDetailsPage = () => {
             )}
 
             {/* Action buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-8">
-              <button 
-                onClick={handleAddToCart} 
-                className={cn(
-                  "flex-1 flex items-center justify-center gap-2 py-3 rounded-md font-medium transition-colors",
-                  addedToCart
-                    ? "bg-green-600 hover:bg-green-700 text-white"
-                    : "bg-brand-saffron hover:bg-brand-brown text-white"
-                )}
-                disabled={product.stock <= 0}
-              >
-                {addedToCart ? (
-                  <>
-                    <Check className="h-5 w-5" />
-                    Added to Cart
-                  </>
-                ) : (
-                  <>
-                    <ShoppingCart className="h-5 w-5" />
-                    Add to Cart
-                  </>
-                )}
-              </button>
-              <button className="btn-outline flex items-center justify-center gap-2 py-3">
-                <Heart className="h-5 w-5" />
-                Add to Wishlist
-              </button>
-              <button className="hidden sm:flex btn-outline items-center justify-center gap-2 py-3">
-                <Share className="h-5 w-5" />
-                Share
-              </button>
+            <div className="flex flex-col gap-3 mb-8">
+              {/* Main action buttons */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button 
+                  onClick={handleAddToCart} 
+                  className={cn(
+                    "flex-1 flex items-center justify-center gap-2 py-3 rounded-md font-medium transition-colors",
+                    addedToCart
+                      ? "bg-green-600 hover:bg-green-700 text-white"
+                      : "bg-brand-saffron hover:bg-brand-brown text-white"
+                  )}
+                  disabled={product.stock <= 0}
+                >
+                  {addedToCart ? (
+                    <span>
+                      <Check className="h-5 w-5" />
+                      Added to Cart
+                    </span>
+                  ) : (
+                    <span>
+                      <ShoppingCart className="h-5 w-5" />
+                      Add to Cart
+                    </span>
+                  )}
+                </button>
+                <button 
+                  onClick={handleExpressCheckout}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2 py-3 rounded-md font-medium transition-colors"
+                  disabled={product.stock <= 0}
+                >
+                  <ShoppingCart className="h-5 w-5" />
+                  Express Checkout
+                </button>
+              </div>
+              
+              {/* Secondary action buttons */}
+              <div className="flex flex-row gap-3">
+                <button className="flex-1 btn-outline flex items-center justify-center gap-2 py-3">
+                  <Heart className="h-5 w-5" />
+                  Add to Wishlist
+                </button>
+                <button className="flex-1 btn-outline flex items-center justify-center gap-2 py-3">
+                  <Share className="h-5 w-5" />
+                  Share
+                </button>
+              </div>
             </div>
 
             {/* Key features */}
