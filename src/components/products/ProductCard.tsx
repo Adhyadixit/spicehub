@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Star, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useCart } from '@/contexts/CartContext';
 
 interface ProductCardProps {
   id: string;
@@ -18,6 +19,28 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
+  id,
+  name,
+  price,
+  originalPrice,
+  image,
+  rating,
+  reviewCount,
+  isNew = false,
+  isSale = false,
+  tags = []
+}) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart({
+      id,
+      name,
+      price,
+      image,
+      quantity: 1
+    });
+  };
   id,
   name,
   price,
@@ -67,7 +90,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
       {/* Quick add to cart (visible on hover) */}
       <div className="absolute bottom-0 left-0 right-0 bg-white p-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex justify-center">
-        <button className="flex items-center justify-center space-x-2 bg-brand-saffron hover:bg-brand-brown text-white py-1.5 px-3 rounded-md w-full transition-colors">
+        <button 
+          onClick={handleAddToCart}
+          className="flex items-center justify-center space-x-2 bg-brand-saffron hover:bg-brand-brown text-white py-1.5 px-3 rounded-md w-full transition-colors"
+        >
           <ShoppingCart className="h-4 w-4" />
           <span className="text-sm font-medium">Add to Cart</span>
         </button>
