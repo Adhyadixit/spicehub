@@ -1,9 +1,10 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
+import ShippingPolicy from './pages/policies/ShippingPolicy';
 
 // Pages
 import Index from "./pages/Index";
@@ -39,6 +40,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Index />} />
@@ -56,6 +58,7 @@ const App = () => (
           <Route path="/policies/refund-policy" element={<RefundPolicy />} />
           <Route path="/policies/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/policies/terms-of-use" element={<TermsOfUse />} />
+          <Route path="/policies/shipping-policy" element={<ShippingPolicy />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />

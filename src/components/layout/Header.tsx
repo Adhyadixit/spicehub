@@ -120,9 +120,9 @@ const Header = () => {
             </div>
           </div>
           <div className="flex items-center space-x-4 text-sm">
-            <Link to="/about">About Us</Link>
+            <Link to="/about-us">About Us</Link>
             <Link to="/blog">Blog</Link>
-            <Link to="/contact">Contact</Link>
+            <Link to="/contact-us">Contact Us</Link>
           </div>
         </div>
       </div>
